@@ -1,0 +1,185 @@
+MQTT (Message Queuing Telemetry Transport) is a lightweight messaging protocol that is designed for use in situations where network bandwidth and power consumption are limited, such as in the Internet of Things (IoT) and Machine-to-Machine (M2M) communication.
+MQTT components
+message - 
+       the data carried by the MQTT protocal across the network
+when an messsage is transported by MQTT
+it contains
+
+1. payload data 
+           The payload data is usually in the form of a string of bytes that can be interpreted and processed by the receiving device or application.
+           The payload data is the actual content of the message that is being transmitted, and is what is ultimately processed by the receiving device or application.
+           For example, in an IoT application, the payload data might represent sensor data such as temperature, humidity, or pressure readings, or it could be a command to control a device, such as turning on a light or activating an alarm.
+
+2. quality os service (qos)
+
+            Quality of Service (QoS) refers to the level of assurance that is provided for the delivery of messages between MQTT clients (i.e., publishers and subscribers). MQTT supports three levels of QoS: 0, 1, and 2.
+
+QoS 0: At QoS 0, the publisher sends the message to the broker once, without any confirmation of delivery. The broker then sends the message to all subscribed clients. This level of QoS provides the lowest assurance of delivery, as there is no guarantee that the message will be received by the subscriber.
+
+QoS 1: At QoS 1, the publisher sends the message to the broker, which then acknowledges receipt of the message. The broker then sends the message to all subscribed clients, and continues to try to deliver the message until it receives an acknowledgement from the subscriber. This level of QoS provides a higher assurance of delivery than QoS 0, as the message is guaranteed to be delivered at least once.
+
+QoS 2: At QoS 2, the publisher sends the message to the broker, which then sends a confirmation to the publisher that the message has been received. The broker then sends the message to all subscribed clients, and waits for an acknowledgement from the subscriber. Once the acknowledgement is received, the broker sends a confirmation back to the publisher. This level of QoS provides the highest assurance of delivery, as the message is guaranteed to be delivered exactly once.
+
+3. topic name 
+            a topic name is a string that is used to identify and route messages between MQTT clients. Topics are hierarchical, and are organized into a tree-like structure, with each level separated by a forward slash (/).
+
+For example, a topic name might be "sensors/temperature/living_room", where "sensors" is the top-level topic, "temperature" is a sub-topic, and "living_room" is a sub-sub-topic. In this example, the topic name indicates that the message is related to a temperature sensor in the living room.
+
+
+client - 
+        clients subscribe to topics to publish and receive  messages . thus subscriber and published are special role of a client
+
+server or broker -
+      a program or device that acts as an intermediary between clients which publish applications messages and clients which have made subscriptions
+
+1 . accepts network connections from clients 
+2 . accepts application messages published by clients 
+3 . processes subscribe and unsubscribe requests from clients 
+4 . forward applicatons messages that match client subscriptions
+5 . closes the network connection from the client 
+
+topic -
+      the label attached to an message which is matched against the subscriptions known to the server 
+
+The MQTT protocol uses a simple packet structure for sending and receiving messages between clients and brokers. The packet structure consists of four distinct packet types:
+
+CONNECT Packet: This packet is used to establish a connection between an MQTT client and broker. It contains information such as the client ID, username, and password, as well as various connection options.
+
+PUBLISH Packet: This packet is used to publish a message to an MQTT broker. It contains the topic name, QoS level, message ID, and payload data.
+
+SUBSCRIBE Packet: This packet is used to subscribe to one or more topics on an MQTT broker. It contains the topic name and QoS level for each topic that the client wishes to subscribe to.
+
+UNSUBSCRIBE Packet: This packet is used to unsubscribe from one or more topics on an MQTT broker. It contains the topic names that the client wishes to unsubscribe from.
+
+Each packet in MQTT has a fixed header, which contains information such as the packet type, message length, and various control flags. The header is followed by a variable length body, which contains the specific data for each packet type.
+
+Overall, the packet structure in MQTT is designed to be simple and lightweight, making it well-suited for use in IoT applications where resources may be limited.
+
+
+
+IEEE 802.3 - ETHERNET
+ETHERNET FRAMES
+
+Ethernet frames are used to transmit data on Ethernet networks, which are the most widely used local area network (LAN) technology in the world.
+we seen this in datalink layer
+An Ethernet frame is composed of several parts that include:
+
+1 . Preamble 
+    a 64-bit information telling the receiving NIC(network interface card ) that a frame is coming  and when the formate starts
+   it  contains alternating 0's and 1's used to synchronize the clocks of the sender and receiver. 
+2 . recipient destination mac adrress
+3 . sender's source mac address
+4 . type
+       telling the recipient basic type of data such as  ipv4 or ipv6 
+       not higher level  data such as email or web pages
+5 . data
+     whatever payload the frames carries such as ip packets 
+     an ip packet  deliverd from the network layer
+      the payload limit is 1500 bytes
+6 .  pad 
+      pad is extra bits to make a frame
+     at least bigger than 64 bytes beacuse any data unit smaller than 64 bytes would be consider as collisions. the receiving device would simply ignore it . if is  size less than 64 bytes NIC adds extra bytes 
+     the minimun frame  size is 64 bytes 
+7 . FCS
+     fcs stands for frame check sequence 
+     error checking mechanism
+It is a 4-byte sequence used to verify the integrity of the data transmitted in the frame. The FCS is calculated by the sender based on the contents of the frame and is verified by the receiver.
+ 
+WIRESHARK:
+wireshark is an open-source network sniffing software , which is designed to track network 
+packets and through the use of different filter options available in the software
+
+Wireshark is a popular open-source network protocol analyzer that allows you to inspect network traffic in real-time. With Wireshark, you can capture and analyze network packets to understand how data is flowing between devices on a network.
+
+Wireshark supports a wide range of protocols, including TCP/IP, HTTP, DNS, and FTP, among others. It provides a user-friendly interface for visualizing and analyzing packet data, allowing you to quickly identify network issues and troubleshoot problems.
+
+Wireshark is commonly used by network administrators, security professionals, and developers to diagnose network problems, identify security vulnerabilities, and debug network protocols.
+
+(  TO access the network-related information between devices to gain profits or use the hacked the data for illegal purpose is know as network sniffing. this method is carried by intercepting the data packets that are sent over network by either using software or hardware means 
+
+working for :
+1 . used to analyse network packets
+2 . troubleshoot  network issues
+3 . check malicious and hacked possibilities
+
+PUB / SUB
+(ex-twitter)
+The Publisher-Subscriber model is a messaging pattern used in computer software architecture. In this model, there are two types of entities: publishers and subscribers. Publishers are responsible for generating events or messages, while subscribers receive and process these events or messages.
+
+The basic idea behind the Publisher-Subscriber model is that publishers and subscribers are decoupled, meaning that they do not have to be aware of each other's existence. Instead, publishers simply publish events or messages to a message broker or channel, and subscribers register their interest in receiving certain types of messages from that channel. Whenever a message is published to the channel, the message broker forwards it to all subscribers that have registered for that type of message.
+
+This model is commonly used in distributed systems and event-driven architectures, as it provides a scalable and flexible way to distribute information across multiple components without creating tight coupling between them. It is also known as the "Pub/Sub" model, and is often implemented using message queues or other messaging systems.
+
+ADVANTAGES:
+
+The Publisher-Subscriber (Pub/Sub) model offers several advantages over other messaging patterns, including:
+
+Scalability: Pub/Sub allows for the efficient distribution of messages to multiple subscribers, making it easy to scale a system to handle large volumes of messages.
+
+Decoupling: The Pub/Sub model decouples publishers and subscribers, meaning that they do not have to be aware of each other's existence. This reduces the risk of tight coupling between components, which can make systems less flexible and more difficult to maintain.
+
+Flexibility: Pub/Sub allows subscribers to receive only the messages they are interested in, which provides greater flexibility in designing a system that can handle different types of messages.
+
+Asynchronous processing: Pub/Sub allows for asynchronous message processing, meaning that subscribers can process messages at their own pace without having to wait for the publisher to complete its work.
+
+Reliability: Pub/Sub messaging systems often provide mechanisms for ensuring message delivery and reliability, such as message acknowledgements and guaranteed delivery.
+
+Overall, the Pub/Sub model is a powerful and flexible way to distribute information across multiple components in a system, and it offers many advantages for building scalable, flexible, and reliable distributed systems.
+
+DISADVANTAGES:
+While the Publisher-Subscriber (Pub/Sub) model has several advantages, it also has some potential disadvantages to consider:
+
+Complexity: Implementing a Pub/Sub system can be more complex than other messaging patterns, especially when it comes to designing the message broker and managing subscriptions.
+
+Latency: Pub/Sub systems may introduce additional latency in message delivery, especially when compared to more direct messaging patterns such as point-to-point messaging.
+
+Message ordering: Since Pub/Sub systems distribute messages to multiple subscribers, maintaining the order of messages can be challenging, especially when multiple subscribers are processing messages asynchronously.
+
+Security: Pub/Sub systems may introduce additional security concerns, such as ensuring that only authorized subscribers can access certain messages or topics.
+
+Network overhead: Pub/Sub systems may introduce additional network overhead, as messages must be transmitted to a central message broker and then distributed to multiple subscribers.
+
+Overall, the Pub/Sub model can be an effective way to distribute information in a distributed system, but it is important to carefully consider the potential disadvantages and trade-offs before implementing this pattern.
+
+MODBUS:
+
+Modbus is a widely used serial communication protocol in industrial automation systems. It defines the format of the messages that are exchanged between devices over serial communication lines.
+A Modbus message, also known as a Modbus frame, consists of several fields, including:
+
+Address field: This field specifies the address of the device that will receive the message. It can be a broadcast address or an address of a specific device.
+
+Function code field: This field specifies the type of action that the device should perform. Modbus defines a set of function codes, each of which corresponds to a specific action, such as reading or writing data.
+
+Data field: This field contains the data that is being transmitted. The format and size of the data depend on the function code being used.
+
+Error checking field: This field contains a checksum or CRC value that is used to check for errors in the message.
+
+The frame begins with a 1-byte address field, followed by a 1-byte function code field. The data field can vary in size, depending on the function code being used. The error checking field is typically a 2-byte checksum or CRC value.
+
+In a Modbus transaction, the sender device sends a message to the receiver device, which then responds with a message of its own. The message exchange typically involves the following steps:
+
+The sender sends a request message to the receiver, specifying the desired function code and data.
+
+The receiver device receives the message and processes the request.
+
+The receiver device sends a response message back to the sender, containing any requested data.
+
+The sender device receives the response message and processes the data as necessary.
+
+Modbus frames are used for a variety of purposes in industrial automation systems, including reading and writing data to sensors, controlling actuators, and configuring devices. The Modbus protocol has been widely adopted in the industry due to its simplicity, flexibility, and reliability.
+
+ the modbus communication protocal is the oldest and by far most popular automation protocal in the field of process automation and SCADA
+(supervisory control and data acquisition )
+
+modbus is able to function on both point to point and multidrop networks
+
+RS-485:
+RS-485 is a serial communication standard used in a wide variety of industrial and commercial applications. It is a balanced, differential signaling standard that is designed to provide reliable long-distance communication over twisted pair cables. It was first introduced in 1983 by the Electronics Industries Alliance (EIA).
+
+RS-485 supports full-duplex communication over distances of up to 1,200 meters (4,000 feet) at data rates of up to 10 Mbps. It can also support half-duplex communication at distances of up to 1,200 meters (4,000 feet) at data rates of up to 2 Mbps. RS-485 uses differential signaling, which helps to reduce electromagnetic interference (EMI) and noise on the communication line.
+
+RS-485 supports up to 32 devices on a single bus, with each device having a unique address. Devices communicate using a master-slave configuration, with the master device initiating communication and the slave devices responding to requests. The standard supports a variety of communication modes, including point-to-point, point-to-multipoint, and multipoint-to-multipoint.
+
+One of the key advantages of RS-485 is its robustness and reliability in noisy industrial environments. The use of differential signaling and the ability to terminate the communication line with a resistor at each end helps to reduce EMI and noise. Additionally, the ability to support multiple devices on a single bus makes it a cost-effective solution for many applications.
+
+RS-485 is commonly used in industrial automation, building automation, and HVAC control systems, among other applications. It is often used for communication between sensors, actuators, and other devices that need to communicate over long distances in harsh environments.
